@@ -6,16 +6,24 @@ The library provides a range of features from managing Wi-Fi connections and cre
 
 ## Table of Contents
 
-* [Features](#features)
+* [Development Status](#development-status)
 * [Motivation](#motivation)
+* [Features](#features)
+* [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Development Status](#development-status)
-* [Version](#version)
 * [Contributing](#contributing)
 * [Acknowledgements](#acknowledgements)
 * [Disclaimer](#disclaimer)
 * [License](#license)
+
+## Development Status
+
+**DESIGN**_
+
+## Motivation
+
+_This section will describe the motivation behind the creation of NanoBolt._
 
 ## Features
 
@@ -32,10 +40,7 @@ NanoBolt offers a range of features:
 
 * **Bootstrap Code**: Offers an easy-to-use bootstrap code that initializes the Connection Manager and decides whether to connect to an available network or start the Access Point mode based on the availability of Wi-Fi credentials.
 
-
-## Motivation
-
-_This section will describe the motivation behind the creation of NanoBolt._
+## Requirements
 
 ## Installation
 
@@ -44,14 +49,6 @@ _Instructions for installing the NanoBolt library will go here._
 ## Usage
 
 _Instructions for how to use the NanoBolt library will go here._
-
-## Development Status
-
-_This section will provide updates on the current stage of development._
-
-## Version
-
-_This section will contain information about the current version of the project._
 
 ## Contributing
 
