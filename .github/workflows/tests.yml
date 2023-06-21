@@ -54,7 +54,7 @@ jobs:
             --version_file_type py \
             --debug
           python setup.py sdist
-          # rm dist/*.orig
+          [ -f dist/*.orig ] && rm -f dist/*.orig
       - name: Test built package
         run: |
-          # twine check dist/*
+          twine check dist/*
