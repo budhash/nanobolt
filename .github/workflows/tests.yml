@@ -1,3 +1,5 @@
+---
+
 name: Test NanoBolt
 
 on:
@@ -22,39 +24,29 @@ jobs:
 
       - name: Install dependencies - common
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          make setup-pip
+          make setup-dev
 
       - name: Install dependencies - test
         run: |
-          if [ -f requirements.test.txt ]; then pip install -r requirements.test.txt; fi
+          make setup-test
 
       - name: Install dependencies - release
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.release.txt ]; then pip install -r requirements.release.txt; fi
+          make setup-release
 
       - name: Lint - flake8
         run: |
-          flake8 .
+          make lint-code
 
       - name: Lint - yamllint
         run: |
-          yamllint .
+          make lint-yaml
 
       - name: Run - tests
         run: |
-          # Command to run your tests goes here.
+          make tests
 
       - name: Build - package
         run: |
-          changelog2version \
-            --changelog_file CHANGELOG.md \
-            --version_file umodbus/version.py \
-            --version_file_type py \
-            --debug
-          python setup.py sdist
-          [ -f dist/*.orig ] && rm -f dist/*.orig
-      - name: Test built package
-        run: |
-          twine check dist/*
+          make package

@@ -1,4 +1,7 @@
+---
+
 name: Release NanoBot
+
 on:
   release:
     types:
@@ -18,17 +21,16 @@ jobs:
 
       - name: Install dependencies - common
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          make setup-pip
+          make setup-dev
 
       - name: Install dependencies - test
         run: |
-          if [ -f requirements.test.txt ]; then pip install -r requirements.test.txt; fi
+          make setup-test
 
       - name: Install dependencies - release
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.release.txt ]; then pip install -r requirements.release.txt; fi
+          make setup-release
 
       - name: Publish - pypi
         run: |

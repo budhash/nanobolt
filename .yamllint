@@ -13,3 +13,7 @@ rules:
     level: warning
     ignore:
       - .github/workflows/*
+  truthy:
+    level: warning
+    ignore:
+      - .github/workflows/*
