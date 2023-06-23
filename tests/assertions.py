@@ -143,4 +143,3 @@ def assertRaises(expected_exc, func=None, *args, **kwargs):
             assert False, f"Expected exception {expected_exc} but got {type(e).__name__}: {e}"
 
     assert False, "%r not raised" % expected_exc
-
