@@ -52,7 +52,7 @@ package:
 
 clean:
 	# Remove .pytest_cache directory
-	@rm -rf .pytest_cache
+	@find . -type d -name '.pytest_cache' -exec rm -rf {} +
 	# Remove __pycache__ directories
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
 	# Remove dist directory
