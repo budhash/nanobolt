@@ -1,0 +1,49 @@
+# Configuration for python coverage package
+[run]
+branch = True
+
+source=nanobolt
+
+omit =
+    */tests/*,
+    .venv/*,
+    .idea/*,
+    setup*,
+    .eggs/*
+    .tox/*,
+    build/*,
+    dist/*,
+    nanobolt/version.py
+
+[report]
+include = nanobolt/*
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
+
+ignore_errors = True
+
+[html]
+directory = output/report/coverage
+skip_empty = True
+
+[xml]
+output = output/report/coverage.xml
+
+[json]
+output  = output/report/coverage.json
+pretty_print = True
+show_contexts = True
