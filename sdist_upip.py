@@ -122,7 +122,6 @@ def make_resource_module(manifest_files):
 
 
 class sdist(_sdist):
-
     def run(self):
         self.filelist = FileList()
         self.get_file_list()

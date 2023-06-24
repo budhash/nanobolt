@@ -47,6 +47,10 @@ lint:
 	@make lint-type
 	@make lint-yaml
 
+format:
+	@echo "[Format]: Code ..."
+	@black .
+
 package:
 	@echo "[Build]: Packaging ..."
 	@changelog2version --changelog_file CHANGELOG.md --version_file nanobolt/version.py --version_file_type py --debug
@@ -73,5 +77,7 @@ clean:
 
 build:
 	@make clean
+	@make format
+	@make lint
 	@make tests
 	@make package

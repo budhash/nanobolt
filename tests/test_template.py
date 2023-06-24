@@ -1,17 +1,33 @@
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+
 import pytest
 import logging
-from .assertions import assertEqual, assertNotEqual, assertTrue, assertFalse
-from .assertions import assertLess, assertLessEqual, assertGreater, assertGreaterEqual, assertAlmostEqual, assertNotAlmostEqual
-from .assertions import assertIs, assertIsNot, assertIsInstance, assertIsNone, assertIsNotNone
-from .assertions import assertIn
-from .assertions import assertRaises
+from .assertions import (
+    assertEqual,
+    assertNotEqual,
+    assertTrue,
+    assertFalse,
+    assertLess,
+    assertLessEqual,
+    assertGreater,
+    assertGreaterEqual,
+    assertAlmostEqual,
+    assertNotAlmostEqual,
+    assertIs,
+    assertIsNot,
+    assertIsInstance,
+    assertIsNone,
+    assertIsNotNone,
+    assertIn,
+    assertRaises,
+)
 from typing import Generator, Any
 
 LOGGER = logging.getLogger(__name__)
 
 
 class TestTemplate:
-
     @pytest.fixture(scope="class", autouse=True)
     def setup_teardown_class(self) -> Generator[None, None, None]:
         LOGGER.info("Class: setup")
@@ -84,6 +100,7 @@ class TestTemplate:
     def test_assertRaises(self) -> None:
         def func() -> None:
             raise ValueError
+
         assertRaises(ValueError, func)
 
     @pytest.mark.parametrize("input1, input2, expected", [(3, 2, 5), (2, 3, 5), (5, 5, 10)])
@@ -104,17 +121,17 @@ class TestTemplate:
     def test_multi_fixtures(self, signs: Any, digits: Any) -> None:
         LOGGER.info("value: " + signs + digits)
 
-    @pytest.mark.skip('Reasoning for skipping this test')
+    @pytest.mark.skip("Reasoning for skipping this test")
     def test_skip(self) -> None:
-        pytest.fail('this should be skipped')
+        pytest.fail("this should be skipped")
 
-    @pytest.mark.skipif('a' in ['a', 'b'], reason='Reasoning for skipping another test')
+    @pytest.mark.skipif("a" in ["a", "b"], reason="Reasoning for skipping another test")
     def test_skip_if(self) -> None:
-        pytest.fail('this should be skipped')
+        pytest.fail("this should be skipped")
 
-    @pytest.mark.skipif(not 42 == 24, reason='Reasoning for skipping test 42')
+    @pytest.mark.skipif(not 42 == 24, reason="Reasoning for skipping test 42")
     def test_skip_unless(self) -> None:
-        pytest.fail('this should be skipped')
+        pytest.fail("this should be skipped")
 
     @pytest.mark.xfail
     def test_expected_failure(self) -> None:

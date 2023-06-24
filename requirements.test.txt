@@ -5,4 +5,5 @@ flake8>=5.0.0,<6
 coverage>=6.4.2,<7
 yamllint>=1.29,<2
 mypy>=1.4.0,<2
+black>=23.3.0,<24.0.0
 setup2upypackage>=0.1.0,<1
