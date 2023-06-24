@@ -35,11 +35,15 @@ jobs:
         run: |
           make setup-release
 
-      - name: Lint - flake8
+      - name: Lint - code
         run: |
           make lint-code
 
-      - name: Lint - yamllint
+      - name: Lint - type
+        run: |
+          make lint-type
+
+      - name: Lint - yaml
         run: |
           make lint-yaml
 

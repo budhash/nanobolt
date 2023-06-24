@@ -32,6 +32,9 @@ tests:
 lint-code:
 	@echo "[Lint]: Code ..."
 	@flake8 .
+lint-type:
+	@echo "[Lint]: Type ..."
+	@mypy --config-file mypy.ini
 
 lint-yaml:
 	@echo "[Lint]: Yaml ..."
@@ -40,6 +43,7 @@ lint-yaml:
 lint: 
 	@echo "[Lint]: ..."
 	@make lint-code
+	@make lint-type
 	@make lint-yaml
 
 package:
