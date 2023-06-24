@@ -31,7 +31,7 @@ tests:
 
 lint-code:
 	@echo "[Lint]: Code ..."
-	@flake8 --config .flake8
+	@ruff check . --fix --exit-non-zero-on-fix
 
 lint-type:
 	@echo "[Lint]: Type ..."

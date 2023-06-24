@@ -1,16 +1,204 @@
 [tool.black]
 preview = true
-line-length = 120
-target-version = ["py38", "py39", "py310", "py311"]
+line-length = 120   # must agree with Ruff
+target-version = ["py39", "py310", "py311"]
 include = '\.pyi?$'
 exclude = '''
-/( 
-    \.git
+/(
+    \.bzr
+  | \.direnv
+  | \.egg
+  | \.eggs
+  | \.env 
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.nox
+  | \.pants.d
+  | \.pytype
+  | \.ruff_cache
+  | \.svn
+  | \.tox
   | \.venv
+  | __pypackages__
   | _build
   | buck-out
   | build
   | dist
+  | env
+  | migrations
+  | node_modules
   | output
+  | venv
 )/
 '''
+
+[tool.ruff]
+# https://beta.ruff.rs/docs/rules
+# Rule E402 (module-level import not top-level) is disabled as isort handles it
+# Rule E501 (line too long) is left to Black; some strings are worse for wrapping
+
+line-length = 120  # must agree with Black
+target-version = 'py39'
+show-source = true
+cache-dir = "~/.cache/ruff"
+task-tags = ["TODO", "FIXME", "XXX"]
+
+src = ["nanobolt"]
+
+select = ["E", "F"]
+unfixable = []
+fixable = [
+    "A",      # flake8-builtins
+    "ANN",    # flake8-annotations 
+    "ARG",    # flake8-unused-arguments
+    "ASYNC",  # flake8-async
+    "B",      # flake8-bugbear
+    "BLE",    # flake8-blind-except
+    "C4",     # flake8-comprehensions
+    "C90",    # McCabe cyclomatic complexity
+    "COM",    # flake8-commas
+    "D",      # pydocstyle
+    "DTZ",    # flake8-datetimez
+    "E",      # Error
+    "EM",     # flake8-errmsg
+    "EXE",    # flake8-executable    
+    "F",      # Pyflakes
+    "FA",     # flake8-future-annotations
+    "FLY",    # flynt
+    "FBT",    # flake8-boolean-trap
+    "G",      # flake8-logging-format
+    "I",      # isort
+    "ICN",    # flake8-import-conventions
+    "INP",    # flake8-no-pep420
+    "INT",    # flake8-gettext
+    "ISC",    # flake8-implicit-str-concat
+    "N",      # pep8-naming
+    "PGH",    # pygrep-hooks
+    "PIE",    # flake8-pie
+    "PLC",    # pylint-convension
+    "PLE",    # pylint-error
+    "PLR",    # pylint-refactor
+    "PLW",    # pylint-warning
+    "PT",     # flake8-pytest-style
+    "PTH",    # flake8-use-pathlib
+    "PYI",    # flake8-pyi
+    "RET",    # flake8-return
+    "RSE",    # flake8-raise
+    "RUF",    # Ruff-specific rules
+    "Q",      # flake8-quotes
+    "S",      # bandit
+    "SIM",    # flake8-simplify
+    "SLF",    # flake8-self
+    "T10",    # flake8-debugger
+    "TCH",    # flake8-type-checking
+    "TD",     # flake8-todos
+    "TID",    # flake8-tidy-imports
+    "TRY",    # tryceratops
+    "UP",     # pyupgrade
+    "W",      # Warning
+    "YTT",    # flake8-2020
+]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".egg",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "env",
+    ".env",
+    "migrations",
+    "node_modules",
+    "venv",
+    ".venv",
+]
+
+ignore = [
+    "B905",  # zip strict=True; remove once python <3.10 support is dropped.
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "D200",
+    "D401",
+    "E402",
+    "E501",
+    "F401",
+    "TRY003",  # Avoid specifying messages outside exception class; overly strict, especially for ValueError
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.mccabe]
+max-complexity = 17  # default: 10
+
+[tool.ruff.flake8-bugbear]
+extend-immutable-calls = [
+    "chr",
+    "typer.Argument",
+    "typer.Option",
+]
+
+[tool.ruff.per-file-ignores]
+"docs/*" = ['D']
+"tests/*.py" = [
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "S101",  # use of "assert"
+    "S102",  # use of "exec"
+    "S106",  # possible hardcoded password.
+    "PGH001",  # use of "eval"
+]
+
+[tool.ruff.isort]
+combine-as-imports = true
+extra-standard-library = ['typing_extensions']
+split-on-trailing-comma = false
+relative-imports-order = 'furthest-to-closest'
+known-first-party = ['coaster']
+section-order = ['future', 'standard-library', 'third-party', 'first-party', 'local-folder']
+
+[tool.ruff.pep8-naming]
+staticmethod-decorators = [
+    "pydantic.validator",
+    "pydantic.root_validator",
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.pylint]
+allow-magic-value-types = ["float", "int", "str"]
+max-args = 10        # default: 5
+max-branches = 20    # default: 12
+max-returns = 8      # default: 6
+max-statements = 88  # default: 50
+
+# todo: add spell check like codespell

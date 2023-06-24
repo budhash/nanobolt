@@ -57,7 +57,7 @@ def filter_tar(name):
     fout = tarfile.open(fileobj=outbuf, mode="w")
     for info in fin:
         # print(info)
-        if not "/" in info.name:
+        if "/" not in info.name:
             continue
         fname = info.name.split("/", 1)[1]
         include = None
