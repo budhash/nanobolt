@@ -26,6 +26,8 @@ def get_status_classifier(status: str) -> str:
     status = status.lower()
     return status_mapping.get(status, "Development Status :: 4 - Beta")
 
+# https://spdx.org/licenses/
+# https://pypi.org/classifiers/
 def get_license_info(license: str) -> tuple:
     license_mapping = {
         "apache": ("Apache License 2.0", "License :: OSI Approved :: Apache Software License"),
@@ -50,7 +52,10 @@ required_python_tuple = tuple(map(int, required_python_str.split('.')))
 # check current Python version
 if sys.version_info < required_python_tuple:
     sys.exit("This package requires Python {} or higher.".format(required_python_str))
-requirements = []
+
+# read the requirements.txt file and populate the requirements list
+with open(here / 'requirements.txt') as f:
+    requirements = f.read().splitlines()
 
 # version
 exec(open(metadata['project']['name'] + '/version.py').read())

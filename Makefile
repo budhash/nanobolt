@@ -31,7 +31,8 @@ tests:
 
 lint-code:
 	@echo "[Lint]: Code ..."
-	@flake8 .
+	@flake8 --config .flake8
+
 lint-type:
 	@echo "[Lint]: Type ..."
 	@mypy --config-file mypy.ini
@@ -72,5 +73,5 @@ clean:
 
 build:
 	@make clean
-	@make test
+	@make tests
 	@make package

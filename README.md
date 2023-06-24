@@ -19,7 +19,7 @@ The library provides a range of features from managing Wi-Fi connections and cre
 
 ## Development Status
 
-**DESIGN**_
+**Pre-Alpha**
 
 ## Motivation
 
@@ -41,6 +41,8 @@ NanoBolt offers a range of features:
 * **Bootstrap Code**: Offers an easy-to-use bootstrap code that initializes the Connection Manager and decides whether to connect to an available network or start the Access Point mode based on the availability of Wi-Fi credentials.
 
 ## Requirements
+* [uasyncio](https://github.com/micropython/micropython-lib/tree/master/uasyncio) - micropython version of *async* library for big brother - python3.
+
 
 ## Installation
 
