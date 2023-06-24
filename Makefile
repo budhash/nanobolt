@@ -1,83 +1,76 @@
 #!/usr/bin/make -f
 
-.PHONY: setup setup-pip setup-test setup-release tests lint-code lint-yaml lint package build clean
+DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-setup:
-	@echo "[Setup]: ..."
-	@make setup-pip
-	@make setup-dev
-	@make setup-test
-	@make setup-release
+.PHONY: setup setup-pip setup-dev setup-test setup-release tests lint-code lint-yaml lint package build clean run
 
 setup-pip:
 	@echo "[Setup]: Upgrading pip ..."
-	python -m pip install --upgrade pip
+	@python -m pip install --upgrade pip
 
-setup-dev:
+setup-dev: setup-pip
 	@echo "[Setup]: requirements.txt ..."
-	pip install -r requirements.txt
+	@pip install -r $(DIR)/requirements.txt
 
-setup-test:
+setup-test: setup-dev
 	@echo "[Setup]: requirements.test.txt ..."
-	if [ -f requirements.test.txt ]; then pip install -r requirements.test.txt; fi
+	if [ -f $(DIR)/requirements.test.txt ]; then pip install -r $(DIR)/requirements.test.txt; fi
 
-setup-release:
+setup-release: setup-dev
 	@echo "[Setup]: requirements.release.txt ..."
-	if [ -f requirements.release.txt ]; then pip install -r requirements.release.txt; fi
+	if [ -f $(DIR)/requirements.release.txt ]; then pip install -r $(DIR)/requirements.release.txt; fi
 
-tests:
+setup: setup-pip setup-dev setup-test setup-release
+	@echo "[Setup]: ..."
+
+tests: setup-test
 	@echo "[Tests]: ..."
-	@pytest -c pytest.ini
+	@pytest -c $(DIR)/pyproject.toml
 
-lint-code:
+lint-code: setup-test
 	@echo "[Lint]: Code ..."
-	@ruff check . --config pyproject.toml --fix --exit-non-zero-on-fix
+	@ruff check . --config $(DIR)/pyproject.toml -v --fix --exit-non-zero-on-fix
 
-lint-type:
+lint-type: setup-test
 	@echo "[Lint]: Type ..."
-	@mypy --config-file pyproject.toml
+	@mypy --config-file $(DIR)/pyproject.toml
 
-lint-yaml:
+lint-yaml: setup-test
 	@echo "[Lint]: Yaml ..."
-	@yamllint .
+	@yamllint -c $(DIR)/.yamllint .
 
-lint: 
+lint: lint-code lint-type lint-yaml
 	@echo "[Lint]: ..."
-	@make lint-code
-	@make lint-type
-	@make lint-yaml
 
-format:
+format: setup-test
 	@echo "[Format]: Code ..."
-	@black .
+	@black --config $(DIR)/pyproject.toml .
 
 package:
 	@echo "[Build]: Packaging ..."
-	@changelog2version --changelog_file CHANGELOG.md --version_file nanobolt/version.py --version_file_type py --debug
-	@python setup.py sdist
-	@[ -f dist/*.orig ] && rm -f dist/*.orig
+	@changelog2version --changelog_file $(DIR)/CHANGELOG.md --version_file $(DIR)/nanobolt/version.py --version_file_type py --debug
+	@python $(DIR)/setup.py sdist
+	@[ -f $(DIR)/dist/*.orig ] && rm -f $(DIR)/dist/*.orig
 	@echo "[Build]: Checking ..."
-	@twine check dist/*
+	@twine check $(DIR)/dist/*
 
 clean:
-	# Remove .pytest_cache directory
-	@find . -type d -name '.pytest_cache' -exec rm -rf {} +
+	# Remove .cache directory [.cache/ruff .cache/mypy .cache/pytest]
+	@rm -rf $(DIR)/.cache
 	# Remove __pycache__ directories
-	@find . -type d -name '__pycache__' -exec rm -rf {} +
+	@find $(DIR) -type d -name '__pycache__' -exec rm -rf {} +
 	# Remove dist directory
-	@rm -rf dist
+	@rm -rf $(DIR)/dist
 	# Remove directories with *.egg-info
-	@find . -type d -name '*.egg-info' -exec rm -rf {} +
+	@find $(DIR) -type d -name '*.egg-info' -exec rm -rf {} +
 	# Remove MANIFEST file
-	@rm -f MANIFEST
+	@rm -f $(DIR)/MANIFEST
 	# Remove output directory
-	@rm -rf output
+	@rm -rf $(DIR)/output
 	# Remove .coverage file
-	@rm -f .coverage
+	@rm -f $(DIR)/.coverage
 
-build:
-	@make clean
-	@make format
-	@make lint
-	@make tests
-	@make package
+build: format lint tests package
+
+rebuild: clean build
+

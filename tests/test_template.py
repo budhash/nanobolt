@@ -29,10 +29,13 @@ LOGGER = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from pytest import FixtureRequest as _FixtureRequest
+
     class FixtureRequest(_FixtureRequest):
         param: str
+
 else:
     from pytest import FixtureRequest
+
 
 class TestTemplate:
     @pytest.fixture(scope="class", autouse=True)
@@ -142,7 +145,7 @@ class TestTemplate:
 
     @pytest.mark.xfail
     def test_expected_failure(self) -> None:
-        assert 1 == 0   # type: ignore[comparison-overlap]
+        assert 1 == 0  # type: ignore[comparison-overlap]
 
     def teardown_method(self, method: object) -> None:
         """Run after every test method"""

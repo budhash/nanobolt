@@ -79,7 +79,7 @@ status_classifier = get_status_classifier(metadata["project"]["status"])
 # Setup
 setup(
     name=metadata["project"]["name"],
-    version=__version__,    # noqa: F821
+    version=__version__,  # noqa: F821
     description=metadata["project"]["description"],
     long_description=(here / "README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
