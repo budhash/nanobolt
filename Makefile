@@ -31,11 +31,11 @@ tests:
 
 lint-code:
 	@echo "[Lint]: Code ..."
-	@ruff check . --fix --exit-non-zero-on-fix
+	@ruff check . --config pyproject.toml --fix --exit-non-zero-on-fix
 
 lint-type:
 	@echo "[Lint]: Type ..."
-	@mypy --config-file mypy.ini
+	@mypy --config-file pyproject.toml
 
 lint-yaml:
 	@echo "[Lint]: Yaml ..."

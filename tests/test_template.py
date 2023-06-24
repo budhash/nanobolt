@@ -22,10 +22,17 @@ from .assertions import (
     assertIn,
     assertRaises,
 )
-from typing import Generator, Any
+from typing import Generator, Any, TYPE_CHECKING
 
 LOGGER = logging.getLogger(__name__)
 
+
+if TYPE_CHECKING:
+    from pytest import FixtureRequest as _FixtureRequest
+    class FixtureRequest(_FixtureRequest):
+        param: str
+else:
+    from pytest import FixtureRequest
 
 class TestTemplate:
     @pytest.fixture(scope="class", autouse=True)
@@ -104,21 +111,21 @@ class TestTemplate:
         assertRaises(ValueError, func)
 
     @pytest.mark.parametrize("input1, input2, expected", [(3, 2, 5), (2, 3, 5), (5, 5, 10)])
-    def test_parameterized(self, input1: Any, input2: Any, expected: Any) -> None:
+    def test_parameterized(self, input1: int, input2: int, expected: int) -> None:
         assert input1 + input2 == expected, f"Test Failed: {input1} + {input2} is not equal to {expected}"
 
     @pytest.fixture(params=["1", "2", "3"])
-    def digits(self, request: Any) -> Any:
+    def digits(self, request: FixtureRequest) -> str:
         return request.param
 
     @pytest.fixture(params=["+", "-"])
-    def signs(self, request: Any) -> Any:
+    def signs(self, request: FixtureRequest) -> str:
         return request.param
 
-    def test_fixtures(self, digits: Any) -> None:
+    def test_fixtures(self, digits: str) -> None:
         assert digits.isnumeric(), f"Test Failed: {digits} is not numeric"
 
-    def test_multi_fixtures(self, signs: Any, digits: Any) -> None:
+    def test_multi_fixtures(self, signs: str, digits: str) -> None:
         LOGGER.info("value: " + signs + digits)
 
     @pytest.mark.skip("Reasoning for skipping this test")
@@ -129,14 +136,14 @@ class TestTemplate:
     def test_skip_if(self) -> None:
         pytest.fail("this should be skipped")
 
-    @pytest.mark.skipif(not 42 == 24, reason="Reasoning for skipping test 42")
+    @pytest.mark.skipif(not 42 == 24, reason="Reasoning for skipping test 42")  # type: ignore[comparison-overlap]
     def test_skip_unless(self) -> None:
         pytest.fail("this should be skipped")
 
     @pytest.mark.xfail
     def test_expected_failure(self) -> None:
-        assert 1 == 0
+        assert 1 == 0   # type: ignore[comparison-overlap]
 
-    def teardown_method(self, method: Any) -> None:
+    def teardown_method(self, method: object) -> None:
         """Run after every test method"""
         pass

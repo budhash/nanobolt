@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
+# mypy: allow-any-explicit
+
 from typing import Any, Callable, Optional, Type
 
 

@@ -1,8 +1,9 @@
+## SECTION : BLACK
 [tool.black]
+target-version = ["py39", "py310", "py311"]         ## version
+include = '\.pyi?$'
 preview = true
 line-length = 120   # must agree with Ruff
-target-version = ["py39", "py310", "py311"]
-include = '\.pyi?$'
 exclude = '''
 /(
     \.bzr
@@ -33,13 +34,14 @@ exclude = '''
 )/
 '''
 
+## SECTION : RUFF
 [tool.ruff]
-# https://beta.ruff.rs/docs/rules
+# ref: https://beta.ruff.rs/docs/rules
 # Rule E402 (module-level import not top-level) is disabled as isort handles it
 # Rule E501 (line too long) is left to Black; some strings are worse for wrapping
 
+target-version = 'py39' ## version
 line-length = 120  # must agree with Black
-target-version = 'py39'
 show-source = true
 cache-dir = "~/.cache/ruff"
 task-tags = ["TODO", "FIXME", "XXX"]
@@ -200,5 +202,62 @@ max-args = 10        # default: 5
 max-branches = 20    # default: 12
 max-returns = 8      # default: 6
 max-statements = 88  # default: 50
+
+
+## SECTION : MYPY
+[tool.mypy]
+# ref: https://mypy.readthedocs.io/en/stable/config_file.html
+python_version = "3.10"                         ## version
+files = ["nanobolt", "tests"]                    # list of directories or files to type check
+#exclude =
+namespace_packages = false
+explicit_package_bases = false
+ignore_missing_imports = true                   # when true, mypy ignores missing imports. If False, mypy gives an error
+follow_imports = "silent"                       # determines how mypy follows imported Python modules. If 'silent', mypy follows all imports and silences errors about modules it can't find
+follow_imports_for_stubs = false
+no_site_packages = false
+no_silence_site_packages = false
+
+# Disallow dynamic typing
+disallow_any_unimported = true                  # gives an error when there is a value whose type mypy can't infer and is not annotated
+disallow_any_expr = false # TODO                # disallows all expressions in the module that have type Any
+disallow_any_decorated = false # TODO           # disallows functions that have Any in their signature after decorator transformation
+disallow_any_explicit = true                    # explicit Any in type positions such as type annotations and generic type parameters
+disallow_any_generics = true                    # disallows usage of generic types that do not specify explicit type parameters
+disallow_subclassing_any = true                 # disallows subclassing a value of type Any
+
+# Untyped definitions and calls
+disallow_untyped_calls = true                   # disallows calling functions without type annotations from functions with type annotations
+disallow_untyped_defs = true                    # disallows defining functions without type annotations or with incomplete type annotations 
+check_untyped_defs = true                       # type-checks the interior of functions without type annotations
+disallow_untyped_decorators = true              # throws error whenever a function with type annotations is decorated with a decorator without annotations
+
+# None and Optional handling
+no_implicit_optional = true                     # treats unannotated arguments and return values as having type Any
+strict_optional = true                          # enables/disables strict Optional checks. If False, mypy treats None as compatible with every type
+
+# Configuring warnings
+warn_redundant_casts = true                     # warns about casting an expression to its inferred type
+warn_unused_ignores = true                      # warns about unneeded # type: ignore comments
+warn_no_return = true                           # shows errors for missing return statements on some execution paths
+warn_return_any = true                          # raises a warning when a function annotated with a non-Any type returns a value of type Any
+warn_unreachable = true                         # shows a warning when encountering any code inferred to be unreachable or redundant after performing type analysis
+
+# Suppressing errors
+ignore_errors = false                           # ignores all non-fatal errors
+enable_error_code = "ignore-without-code"       # allows enabling one or multiple error codes globally
+
+# Miscellaneous strictness flags
+allow_untyped_globals = false                   # causes mypy to suppress errors caused by not being able to fully infer the types of global and class variables
+allow_redefinition = false                      # allows variables to be redefined with an arbitrary type, as long as the redefinition is in the same block and nesting level as the original definition
+local_partial_types = false                     # disallows inferring variable type for None from two assignments in different scopes
+implicit_reexport = true                        # by default (true), imported values to a module are treated as exported and mypy allows other modules to import them
+strict_equality = true                          # prohibit equality checks, identity checks, and container checks between non-overlapping types
+
+# Configuring error messages
+pretty = true                                   # visually nicer output in error messages: use soft word wrap, show source code snippets, and show error location markers
+show_error_context = true                       # prefixes each error with the relevant context
+show_column_numbers = true                      # shows column numbers in error messages
+show_error_codes = true                         # shows error codes that can be used with `# type: ignore[<code>]` comments to silence specific errors
 
 # todo: add spell check like codespell
