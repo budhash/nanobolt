@@ -2,7 +2,7 @@
 
 DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: setup setup-pip setup-dev setup-test setup-release tests lint-code lint-yaml lint package build clean run
+.PHONY: setup setup-pip setup-dev setup-test setup-release tests lint-code lint-yaml lint package build clean check git-check
 
 setup-pip:
 	@echo "[Setup]: Upgrading pip ..."
@@ -74,3 +74,8 @@ clean:
 build: format lint tests package
 
 rebuild: clean build
+
+git-check:
+	@pre-commit run --all-files
+
+check: lint git-check

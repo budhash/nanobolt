@@ -1,6 +1,14 @@
 ---
 exclude: ^(.egg/|.eggs/|.idea/|output/|dist/)
 repos:
+  # - repo: local
+  #   hooks:
+  #     - id: lint
+  #       name: Lint All
+  #       entry: make lint
+  #       language: system
+  #       types: [file]
+  # doesn't work from UI based tools
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -30,11 +38,7 @@ repos:
       - id: fix-encoding-pragma
       # - id: name-tests-test
       - id: requirements-txt-fixer
-  # - repo: local
-  #   hooks:
-  #     - id: lint
-  #       name: Lint All
-  #       entry: make lint
-  #       language: system
-  #       types: [file]
-  # doesn't work from UI based tools
+
+ci:
+  autofix_commit_msg: "[pre-commit.ci] Auto format from pre-commit.com hooks"
+  autoupdate_commit_msg: "[pre-commit.ci] pre-commit autoupdate"
