@@ -21,7 +21,6 @@ jobs:
 
       - name: Install dependencies - common
         run: |
-          make setup-pip
           make setup-dev
 
       - name: Install dependencies - test
