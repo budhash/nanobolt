@@ -11,7 +11,7 @@ exclude = '''
   | \.cache
   | \.egg
   | \.eggs
-  | \.env 
+  | \.env
   | \.git
   | \.hg
   | \.mypy_cache
@@ -53,7 +53,7 @@ select = ["E", "F"]
 unfixable = []
 fixable = [
     "A",      # flake8-builtins
-    "ANN",    # flake8-annotations 
+    "ANN",    # flake8-annotations
     "ARG",    # flake8-unused-arguments
     "ASYNC",  # flake8-async
     "B",      # flake8-bugbear
@@ -65,7 +65,7 @@ fixable = [
     "DTZ",    # flake8-datetimez
     "E",      # Error
     "EM",     # flake8-errmsg
-    "EXE",    # flake8-executable    
+    "EXE",    # flake8-executable
     "F",      # Pyflakes
     "FA",     # flake8-future-annotations
     "FLY",    # flynt
@@ -231,7 +231,7 @@ disallow_subclassing_any = true                 # disallows subclassing a value 
 
 # Untyped definitions and calls
 disallow_untyped_calls = true                   # disallows calling functions without type annotations from functions with type annotations
-disallow_untyped_defs = true                    # disallows defining functions without type annotations or with incomplete type annotations 
+disallow_untyped_defs = true                    # disallows defining functions without type annotations or with incomplete type annotations
 check_untyped_defs = true                       # type-checks the interior of functions without type annotations
 disallow_untyped_decorators = true              # throws error whenever a function with type annotations is decorated with a decorator without annotations
 
@@ -317,7 +317,7 @@ markers = [
 [tool.coverage.run]
 data_file = "output/report/coverage/.coverage"
 branch = true
-source = ["nanobolt"]                   ## path                              
+source = ["nanobolt"]                   ## path
 omit = [
     "*/tests/*",
     ".venv/*",

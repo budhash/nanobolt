@@ -1,6 +1,6 @@
 # NanoBolt
 
-NanoBolt is an easy-to-use, lightweight, and asynchronous Wi-Fi connectivity library for MicroPython-based devices. Developed primarily with a focus on the Raspberry Pi Pico W, NanoBolt aims to maintain compatibility with the ESP32 platform. 
+NanoBolt is an easy-to-use, lightweight, and asynchronous Wi-Fi connectivity library for MicroPython-based devices. Developed primarily with a focus on the Raspberry Pi Pico W, NanoBolt aims to maintain compatibility with the ESP32 platform.
 
 The library provides a range of features from managing Wi-Fi connections and credentials to establishing a mock DNS server and a full asynchronous web server, all with an emphasis on being lightweight and memory-optimized for constrained devices.
 

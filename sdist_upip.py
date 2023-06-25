@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 # This module is part of Pycopy https://github.com/pfalcon/pycopy
 # and pycopy-lib https://github.com/pfalcon/pycopy-lib, projects to
 # create a (very) lightweight full-stack Python distribution.

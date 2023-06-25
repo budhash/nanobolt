@@ -1,19 +1,19 @@
 {
-    "author": {
-        "name"          : "Budha",
-        "email"         : "budhash@gmail.com"
-    },
-    "project": {
-        "name"          : "nanobolt",
-        "description"   : "An easy-to-use, lightweight, and asynchronous Wi-Fi connectivity library for MicroPython-based devices.",
-        "url"           : "https://github.com/budhash/nanobolt",
-        "source"        : "https://github.com/budhash/nanobolt",
-        "issues"        : "https://github.com/budhash/nanobolt/issues",
-        "keywords"      : "micropython, connectivity, library",
-        "license"       : "Apache",
-        "status"        : "Alpha"
-    },
-    "requirements": {
-        "python"        : "3.9"
-    }
+  "author": {
+    "name": "Budha",
+    "email": "budhash@gmail.com"
+  },
+  "project": {
+    "name": "nanobolt",
+    "description": "An easy-to-use, lightweight, and asynchronous Wi-Fi connectivity library for MicroPython-based devices.",
+    "url": "https://github.com/budhash/nanobolt",
+    "source": "https://github.com/budhash/nanobolt",
+    "issues": "https://github.com/budhash/nanobolt/issues",
+    "keywords": "micropython, connectivity, library",
+    "license": "Apache",
+    "status": "Alpha"
+  },
+  "requirements": {
+    "python": "3.9"
+  }
 }
