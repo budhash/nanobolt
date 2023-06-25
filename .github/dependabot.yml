@@ -14,8 +14,6 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "main"
-    auto-merge: true
-    rebase-strategy: all
     open-pull-requests-limit: 100
     # Include a list of updated dependencies
     # with a prefix determined by the dependency group
