@@ -13,12 +13,12 @@ setup-dev: setup-pip
 	@pip install -r $(DIR)/requirements.txt
 
 setup-test: setup-dev
-	@echo "[Setup]: requirements.test.txt ..."
-	if [ -f $(DIR)/requirements.test.txt ]; then pip install -r $(DIR)/requirements.test.txt; fi
+	@echo "[Setup]: test-requirements.txt ..."
+	if [ -f $(DIR)/test-requirements.txt ]; then pip install -r $(DIR)/test-requirements.txt; fi
 
 setup-release: setup-dev
-	@echo "[Setup]: requirements.release.txt ..."
-	if [ -f $(DIR)/requirements.release.txt ]; then pip install -r $(DIR)/requirements.release.txt; fi
+	@echo "[Setup]: release-requirements.txt ..."
+	if [ -f $(DIR)/release-requirements.txt ]; then pip install -r $(DIR)/release-requirements.txt; fi
 
 setup: setup-pip setup-dev setup-test setup-release
 	@echo "[Setup]: ..."
@@ -50,6 +50,7 @@ package:
 	@echo "[Build]: Packaging ..."
 	@changelog2version --changelog_file $(DIR)/CHANGELOG.md --version_file $(DIR)/nanobolt/version.py --version_file_type py --debug
 	@python $(DIR)/setup.py sdist
+	#@python $(DIR)/setup.py bdist_wheel
 	@[ -f $(DIR)/dist/*.orig ] && rm -f $(DIR)/dist/*.orig
 	@echo "[Build]: Checking ..."
 	@twine check $(DIR)/dist/*
