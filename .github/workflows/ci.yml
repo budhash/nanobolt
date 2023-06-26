@@ -42,9 +42,9 @@ jobs:
         run: |
           # matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
           # matrix=$(make matrix)
-          echo "matrix=$matrix"
-          echo "matrix={\"matrix\":[{\"os\":\"ubuntu-latest\",\"python-version\":[\"3.9\",\"3.10\"]},{\"os\":\"macos-latest\",\"python-version\":[\"3.9\",\"3.10\"]}]}" >> $GITHUB_OUTPUT
-
+          # echo "matrix=$matrix"
+          # echo "matrix={\"matrix\":[{\"os\":\"ubuntu-latest\",\"python-version\":[\"3.9\",\"3.10\"]},{\"os\":\"macos-latest\",\"python-version\":[\"3.9\",\"3.10\"]}]}" >> $GITHUB_OUTPUT
+          echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
   validate:
     timeout-minutes: 45
     defaults:
@@ -55,7 +55,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.pre-checks.outputs.matrix) }}"
+      matrix: ${{ fromJSON(needs.pre-checks.outputs.matrix) }}
       # matrix:
       #   os: [ubuntu-latest, macos-latest]
       #   python-version: ["3.9", "3.10"]
