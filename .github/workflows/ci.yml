@@ -14,11 +14,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-commit:
+  pre-checks:
     runs-on: ubuntu-latest
     outputs:
       skip: ${{ steps.check-commit.outputs.skip }}
-      matrix: ${{ steps.check-commit.outputs.matrix }}
+      matrix: ${{ steps.read-metadata.outputs.matrix }}
 
     steps:
       - uses: actions/checkout@v3
@@ -32,7 +32,9 @@ jobs:
           message=$(git log -1 --pretty=format:'%s')
           if [[ "$message" =~ "(\[doc\])|(\[minor\])|(\[skip\])" ]]; then
             echo "Skipping tests due to [doc], [minor], or [skip] message"
-            echo "::set-output name=skip::true"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Read Metadata
@@ -47,7 +49,7 @@ jobs:
     defaults:
       run:
         shell: bash
-    needs: check-commit
+    needs: pre-checks
     if: ${{ needs.check-commit.outputs.skip != 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -63,9 +65,8 @@ jobs:
     steps:
       - name: debug
         run: |
-          echo "skip : ${{ needs.check-commit.outputs.skip }}"
-          echo "matrix : ${{ needs.check-commit.outputs.matrix }}"
-          echo "matrix : ${{ needs.read-metadata.outputs.matrix }}"
+          echo "skip : ${{ needs.pre-checks.outputs.skip }}"
+          echo "matrix : ${{ needs.pre-checks.outputs.matrix }}"
 
       - name: Check out repository
         uses: actions/checkout@v3
