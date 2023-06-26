@@ -44,8 +44,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix:
-        include: ${{ steps.read-metadata.outputs.matrix }}
+    outputs:
+      matrix: ${{ steps.read-metadata.outputs.matrix }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
