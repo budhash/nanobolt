@@ -3,26 +3,38 @@
 
 import json
 import sys
+from typing import List, Dict, Any
 
-filename = sys.argv[1] if len(sys.argv) > 1 else 'metadata.json'
+def generate_matrix(filename: str) -> str:
+    try:
+        with open(filename) as json_file:
+            data = json.load(json_file)
+    except FileNotFoundError:
+        print(f"Warning: File '{filename}' not found. Using default values.", file=sys.stderr)
 
-with open(filename) as json_file:
-    data = json.load(json_file)
+        # Default values
+        os_list = ["ubuntu"]
+        versions = ["3.10"]
+    else:
+        build_info = data.get("build", {})
+        os_list = build_info.get("os", ["ubuntu"])
+        versions = build_info.get("versions", ["3.10"])
 
-build_info = data.get("build", {})
-os_list = build_info.get("os", ["ubuntu"])
-versions = build_info.get("versions", ["3.10"])
+    output: List[Dict[str, Any]] = []
 
-output = []
+    for os_name in os_list:
+        for version in versions:
+            if "-" not in os_name:
+                os_name += "-latest"
+            output.append({
+                "os": os_name,
+                "python-version": version
+            })
 
-for os_name in os_list:
-    for version in versions:
-        if "-" not in os_name:
-            os_name += "-latest"
-        output.append({
-            "os": os_name,
-            "python-version": version
-        })
+    json_output = json.dumps({"grid": output})
+    return json_output
 
-json_output = json.dumps({"grid": output})
-print(json_output)
+if __name__ == "__main__":
+    filename = sys.argv[1] if len(sys.argv) > 1 else 'metadata.json'
+    json_output = generate_matrix(filename)
+    print(json_output)
