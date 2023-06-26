@@ -44,7 +44,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.read-metadata.outputs.matrix) }}
+      matrix: ${{ needs.read-metadata.outputs.matrix }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
