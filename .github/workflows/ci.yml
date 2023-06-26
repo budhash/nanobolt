@@ -63,6 +63,7 @@ jobs:
     steps:
       - name: debug
         run: |
+          echo "skip : ${{ needs.check-commit.outputs.skip }}"
           echo "matrix : ${{ needs.check-commit.outputs.matrix }}"
           echo "matrix : ${{ needs.read-metadata.outputs.matrix }}"
 
