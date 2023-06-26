@@ -18,13 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       skip: ${{ steps.check-commit.outputs.skip }}
+      matrix: ${{ steps.check-commit.outputs.matrix }}
 
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: check if message contain keywords ace scopeid
+      - name: check if message contain escape keywords
         id: check-commit
         run: |
           # checking for "[docs]" or "[skip]" messages
@@ -33,6 +34,12 @@ jobs:
             echo "Skipping tests due to [doc], [minor], or [skip] message"
             echo "::set-output name=skip::true"
           fi
+
+      - name: Read Metadata
+        id: read-metadata
+        run: |
+          matrix=$(make matrix)
+          echo "::set-output name=matrix::$matrix"
 
   validate:
     timeout-minutes: 45
@@ -54,13 +61,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-
-      - name: Read Metadata and Generate Matrix
-        id: read-metadata
-        run: |
-          matrix=$(make matrix)
-          echo "Matrix output: $matrix"
-          echo "::set-output name=matrix::$matrix"
 
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
