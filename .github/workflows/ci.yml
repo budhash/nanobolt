@@ -54,10 +54,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      # matrix: ${{ needs.check-commit.outputs.matrix }}
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        python-version: ["3.9", "3.10"]
+      matrix: ${{ needs.pre-checks.outputs.matrix }}"
+      # matrix:
+      #   os: [ubuntu-latest, macos-latest]
+      #   python-version: ["3.9", "3.10"]
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
