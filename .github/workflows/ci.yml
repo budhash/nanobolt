@@ -27,7 +27,7 @@ jobs:
       - name: check if message contain keywords ace scopeid
         id: check-commit
         run: |
-          # checking for "docs" or "[ci skip]" messages
+          # checking for "[docs]" or "[skip]" messages
           message=$(git log -1 --pretty=format:'%s')
           if [[ "$message" =~ "(\[doc\])|(\[minor\])|(\[skip\])" ]]; then
             echo "Skipping tests due to [doc], [minor], or [skip] message"
@@ -98,7 +98,7 @@ jobs:
     name: publish-test-results
     needs: validate
     # the build-and-test job might be skipped, we don't need to run this job then
-    if: steps.has_tests.outputs.files_exists == 'true'
+    if: success() || failure()
     runs-on: ubuntu-latest
 
     steps:
