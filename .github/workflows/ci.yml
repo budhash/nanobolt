@@ -64,8 +64,7 @@ jobs:
         run: |
           echo "os : ${{ matrix.grid.os }}"
           echo "python : ${{ matrix.grid.python-version }}"
-          echo "index : ${{ matrix.grid.index }}"
-          echo "index : ${{ matrix.index }}"
+          echo "index : ${{ matrix.grid.os }}-${{ matrix.grid.python-version }}"
 
       - name: Checkout - code
         uses: actions/checkout@v3
@@ -94,7 +93,7 @@ jobs:
         if: steps.has_tests.outputs.files_exists == 'true'
         uses: actions/upload-artifact@v3
         with:
-          name: test-results-${{ matrix.index }}
+          name: test-results-${{ matrix.grid.os }}-${{ matrix.grid.python-version }}
           path: output/report/test/junit.xml
 
       - name: Build - package
