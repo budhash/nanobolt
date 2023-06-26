@@ -44,6 +44,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.9", "3.10"]
     outputs:
       matrix: ${{ steps.read-metadata.outputs.matrix }}
     env:
@@ -102,5 +105,5 @@ jobs:
         with:
           check_name: Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          junit_files: test-results/**/*.xml
+          junit_files: output/report/test/junit.xml
           comment_mode: "off"
