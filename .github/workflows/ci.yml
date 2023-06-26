@@ -44,11 +44,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        python-version: ["3.9", "3.10"]
-    outputs:
-      matrix: ${{ steps.read-metadata.outputs.matrix }}
+      matrix: ${{ fromJson(needs.read-metadata.outputs.matrix) }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
@@ -60,8 +56,7 @@ jobs:
       - name: Read Metadata and Generate Matrix
         id: read-metadata
         run: |
-          json=$(make matrix)
-          echo "::set-output name=matrix::$json"
+          echo "::set-output name=matrix::$(make matrix)"
 
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
