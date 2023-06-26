@@ -68,7 +68,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install - dependencies
         run: |
           make setup
 
@@ -78,10 +78,17 @@ jobs:
         with:
           files: "tests"
 
-      - name: Run - tests
+      - name: Test - execute ${{ matrix.index }}
         if: steps.has_tests.outputs.files_exists == 'true'
         run: |
           make tests
+
+      - name: Test - upload results ${{ matrix.index }}
+        if: steps.has_tests.outputs.files_exists == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.index }}
+          path: output/report/test/junit.xml
 
       - name: Build - package
         run: |
@@ -95,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: download test-results
+      - name: Test - download results
         uses: actions/download-artifact@v3
         with:
           path: test-results
@@ -105,5 +112,5 @@ jobs:
         with:
           check_name: Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          junit_files: output/report/test/junit.xml
+          junit_files: test-results/**/*.xml
           comment_mode: "off"
