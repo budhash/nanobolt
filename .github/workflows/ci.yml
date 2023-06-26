@@ -40,7 +40,7 @@ jobs:
       run:
         shell: bash
     needs: check-commit
-    if: ${{ needs.check-commit.outputs.skip != 'true' }}
+    if: ${{ steps.check-commit.outputs.skip != 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -87,7 +87,7 @@ jobs:
   publish-test-results:
     name: publish-test-results
     needs: validate
-    if: ${{ needs.check-commit.outputs.skip != 'true' && steps.has_tests.outputs.files_exists == 'true' && (success() || failure()) }}
+    if: ${{ steps.check-commit.outputs.skip != 'true' && steps.has_tests.outputs.files_exists == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
