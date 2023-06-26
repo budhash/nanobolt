@@ -41,9 +41,9 @@ jobs:
         id: read-metadata
         run: |
           # matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
-          matrix=$(make matrix)
+          # matrix=$(make matrix)
           echo "matrix=$matrix"
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          echo "matrix={\"matrix\":[{\"os\":\"ubuntu-latest\",\"python-version\":[\"3.9\",\"3.10\"]},{\"os\":\"macos-latest\",\"python-version\":[\"3.9\",\"3.10\"]}]}" >> $GITHUB_OUTPUT
 
   validate:
     timeout-minutes: 45
