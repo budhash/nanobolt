@@ -87,7 +87,8 @@ jobs:
   publish-test-results:
     name: publish-test-results
     needs: validate
-    if: ${{ steps.check-commit.outputs.skip != 'true' && steps.has_tests.outputs.files_exists == 'true' }}
+    # the build-and-test job might be skipped, we don't need to run this job then
+    if: success() || failure()
     runs-on: ubuntu-latest
 
     steps:
