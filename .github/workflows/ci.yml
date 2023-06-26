@@ -40,9 +40,10 @@ jobs:
       - name: Read Metadata
         id: read-metadata
         run: |
-          matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
+          # matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
+          matrix=$(make matrix)
           echo "matrix=$matrix"
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          echo "matrix=toJSON($matrix)" >> $GITHUB_OUTPUT
 
   validate:
     timeout-minutes: 45
@@ -66,7 +67,7 @@ jobs:
       - name: debug
         run: |
           echo "skip : ${{ needs.pre-checks.outputs.skip }}"
-          echo "matrix : ${{ needs.pre-checks.outputs.matrix }}"
+          echo "matrix : ${{ fromJson(needs.pre-checks.outputs.matrix) }}
 
       - name: Check out repository
         uses: actions/checkout@v3
