@@ -56,7 +56,9 @@ jobs:
       - name: Read Metadata and Generate Matrix
         id: read-metadata
         run: |
-          echo "::set-output name=matrix::$(make matrix)"
+          matrix=$(make matrix)
+          echo "Matrix output: $matrix"
+          echo "::set-output name=matrix::$matrix"
 
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
