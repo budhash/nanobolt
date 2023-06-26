@@ -51,7 +51,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.check-commit.outputs.matrix) }}
+      matrix: ${{ needs.check-commit.outputs.matrix }}
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
