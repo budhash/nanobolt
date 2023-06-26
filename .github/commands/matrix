@@ -16,13 +16,13 @@ versions = build_info.get("versions", ["3.10"])
 output = []
 
 for os_name in os_list:
-    os_version = versions[0] if versions else "latest"
-    if "-" not in os_name:
-        os_name += "-latest"
-    output.append({
-        "os": os_name,
-        "python-version": versions or ["3.10"]
-    })
+    for version in versions:
+        if "-" not in os_name:
+            os_name += "-latest"
+        output.append({
+            "os": os_name,
+            "python-version": version
+        })
 
-json_output = json.dumps(output)
+json_output = json.dumps({"grid": output})
 print(json_output)

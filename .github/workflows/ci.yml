@@ -41,9 +41,10 @@ jobs:
         id: read-metadata
         run: |
           # matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
-          # matrix=$(make matrix)
+          matrix=$(make matrix)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
           # echo "matrix=$matrix"
-          echo "matrix={\"matrix\":[{\"os\":\"ubuntu-latest\",\"python-version\": \"3.9\"},{\"os\":\"ubuntu-latest\",\"python-version\": \"3.10\"}]}" >> $GITHUB_OUTPUT
+          # echo "matrix={\"matrix\":[{\"os\":\"ubuntu-latest\",\"python-version\": \"3.9\"},{\"os\":\"ubuntu-latest\",\"python-version\": \"3.10\"}]}" >> $GITHUB_OUTPUT
           # echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
   validate:
     timeout-minutes: 45
@@ -52,7 +53,7 @@ jobs:
         shell: bash
     needs: pre-checks
     if: ${{ needs.check-commit.outputs.skip != 'true' }}
-    runs-on: ${{ matrix.matrix.os }}
+    runs-on: ${{ matrix.grid.os }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.pre-checks.outputs.matrix) }}
@@ -60,14 +61,14 @@ jobs:
       #   os: [ubuntu-latest, macos-latest]
       #   python-version: ["3.9", "3.10"]
     env:
-      OS: ${{ matrix.matrix.os }}
-      PYTHON: ${{ matrix.matrix.python-version }}
+      OS: ${{ matrix.grid.os }}
+      PYTHON: ${{ matrix.grid.python-version }}
 
     steps:
       - name: debug
         run: |
           echo "skip : ${{ needs.pre-checks.outputs.skip }}"
-          echo "matrix : ${{ fromJson(needs.pre-checks.outputs.matrix) }}
+          echo "matrix : ${{ fromJson(needs.pre-checks.outputs.matrix) }}"
 
       - name: Check out repository
         uses: actions/checkout@v3
