@@ -54,7 +54,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix: ${{ needs.pre-checks.outputs.matrix }}"
+      matrix: ${{ fromJson(needs.pre-checks.outputs.matrix) }}"
       # matrix:
       #   os: [ubuntu-latest, macos-latest]
       #   python-version: ["3.9", "3.10"]
