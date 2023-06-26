@@ -40,7 +40,7 @@ jobs:
       run:
         shell: bash
     needs: check-commit
-    if: ${{ steps.check-commit.outputs.skip != 'true' }}
+    if: ${{ needs.check-commit.outputs.skip != 'true' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
