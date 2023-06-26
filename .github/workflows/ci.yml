@@ -39,7 +39,7 @@ jobs:
         id: read-metadata
         run: |
           matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
-          echo "::set-output name=matrix::$matrix"
+          echo "matrix::$matrix" >> $GITHUB_OUTPUT
 
   validate:
     timeout-minutes: 45
@@ -51,12 +51,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix: ${{ needs.check-commit.outputs.matrix }}
+      # matrix: ${{ needs.check-commit.outputs.matrix }}
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.9", "3.10"]
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
 
     steps:
+      - name: debug
+        run: |
+          echo "matrix : ${{ needs.check-commit.outputs.matrix }}"
+
       - name: Check out repository
         uses: actions/checkout@v3
 
