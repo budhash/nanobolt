@@ -57,7 +57,7 @@ jobs:
       - name: Read Metadata and Generate Matrix
         id: read-metadata
         run: |
-          json=$(python ../.github/commands/matrix metadata.json)
+          json=$(make matrix)
           echo "::set-output name=matrix::$json"
 
       - name: Check out repository

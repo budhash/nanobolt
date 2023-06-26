@@ -2,7 +2,7 @@
 
 DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: setup setup-pip setup-dev setup-test setup-release tests lint-code lint-yaml lint package build clean check git-check
+.PHONY: setup setup-pip setup-dev setup-test setup-release tests lint-code lint-yaml lint package build clean check git-check matrix
 
 setup-pip:
 	@echo "[Setup]: Upgrading pip ..."
@@ -79,3 +79,6 @@ git-check:
 	@pre-commit run --all-files
 
 check: lint git-check
+
+matrix:
+	@python .github/commands/matrix metadata.json
