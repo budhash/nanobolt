@@ -54,14 +54,14 @@ jobs:
       PYTHON: ${{ matrix.python-version }}
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
       - name: Read Metadata and Generate Matrix
         id: read-metadata
         run: |
           json=$(make matrix)
           echo "::set-output name=matrix::$json"
-
-      - name: Check out repository
-        uses: actions/checkout@v3
 
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
