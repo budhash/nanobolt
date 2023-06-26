@@ -9,6 +9,10 @@ on:
     branches:
       - 'main'
 
+permissions:
+  checks: write
+  pull-requests: write
+
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -83,34 +87,14 @@ jobs:
         run: |
           make tests
 
-      - name: Test - upload results ${{ matrix.index }}
-        if: steps.has_tests.outputs.files_exists == 'true'
-        uses: actions/upload-artifact@v3
+      - name: Test - publish results ${{ matrix.index }}
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
-          name: test-results-${{ matrix.index }}
-          path: output/report/test/junit.xml
+          check_name: Test Results ${{ matrix.index }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          junit_files: output/report/test/junit.xml
+          comment_mode: "off"
 
       - name: Build - package
         run: |
           make package
-
-  publish-test-results:
-    name: publish-test-results
-    needs: validate
-    # the build-and-test job might be skipped, we don't need to run this job then
-    if: success() || failure()
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Test - download results
-        uses: actions/download-artifact@v3
-        with:
-          path: test-results
-
-      - name: Publish - test results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        with:
-          check_name: Test Results
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          junit_files: test-results/**/*.xml
-          comment_mode: "off"
