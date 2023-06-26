@@ -25,7 +25,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: check if message contain escape keywords
+      - name: Check - commit message
         id: check-commit
         run: |
           # checking for "[docs]" or "[skip]" messages
@@ -37,15 +37,13 @@ jobs:
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Read Metadata
+      - name: Load - matrix grid
         id: read-metadata
         run: |
-          # matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
+          # {"grid": [{"os": "ubuntu-latest", "python-version": "3.9"}, {"os": "ubuntu-latest", "python-version": "3.10"}]}
           matrix=$(make matrix)
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
-          # echo "matrix=$matrix"
-          # echo "matrix={\"matrix\":[{\"os\":\"ubuntu-latest\",\"python-version\": \"3.9\"},{\"os\":\"ubuntu-latest\",\"python-version\": \"3.10\"}]}" >> $GITHUB_OUTPUT
-          # echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+
   validate:
     timeout-minutes: 45
     defaults:
@@ -57,26 +55,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.pre-checks.outputs.matrix) }}
-      # matrix:
-      #   os: [ubuntu-latest, macos-latest]
-      #   python-version: ["3.9", "3.10"]
     env:
       OS: ${{ matrix.grid.os }}
       PYTHON: ${{ matrix.grid.python-version }}
 
     steps:
-      - name: debug
+      - name: Debug
         run: |
-          echo "skip : ${{ needs.pre-checks.outputs.skip }}"
-          echo "matrix : ${{ fromJson(needs.pre-checks.outputs.matrix) }}"
+          echo "os : ${{ matrix.grid.os }}"
+          echo "python : ${{ matrix.grid.python-version }}"
+          echo "index : ${{ matrix.grid.index }}"
+          echo "index : ${{ matrix.index }}"
 
-      - name: Check out repository
+      - name: Checkout - code
         uses: actions/checkout@v3
 
-      - name: Set up python ${{ matrix.python-version }}
+      - name: Install - python ${{ matrix.grid.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.grid.python-version }}
 
       - name: Install - dependencies
         run: |
