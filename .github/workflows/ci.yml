@@ -52,7 +52,7 @@ jobs:
         shell: bash
     needs: pre-checks
     if: ${{ needs.check-commit.outputs.skip != 'true' }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.matrix.os }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.pre-checks.outputs.matrix) }}
