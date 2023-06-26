@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import json
+import sys
+
+filename = sys.argv[1] if len(sys.argv) > 1 else 'metadata.json'
+
+with open(filename) as json_file:
+    data = json.load(json_file)
+
+build_info = data.get("build", {})
+os_list = build_info.get("os", ["ubuntu"])
+versions = build_info.get("versions", ["3.10"])
+
+output = []
+
+for os_name in os_list:
+    os_version = versions[0] if versions else "latest"
+    if "-" not in os_name:
+        os_name += "-latest"
+    output.append({
+        "os": os_name,
+        "python-version": versions or ["3.10"]
+    })
+
+json_output = json.dumps(output)
+print(json_output)

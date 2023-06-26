@@ -15,5 +15,15 @@
   },
   "requirements": {
     "python": "3.9"
+  },
+  "build": {
+    "os": [
+      "ubuntu",
+      "macos"
+    ],
+    "versions": [
+      "3.9",
+      "3.10"
+    ]
   }
 }
