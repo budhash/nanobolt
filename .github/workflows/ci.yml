@@ -38,7 +38,7 @@ jobs:
       - name: Read Metadata
         id: read-metadata
         run: |
-          matrix=$(make matrix)
+          matrix=$(echo '{"os": ["ubuntu-latest"], "python-version": ["3.9", "3.10"]}')
           echo "::set-output name=matrix::$matrix"
 
   validate:
