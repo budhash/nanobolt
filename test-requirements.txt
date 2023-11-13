@@ -8,6 +8,6 @@ pytest-dotenv>=0.5.2,<1
 pytest-html>=3.0.0,<5
 pytest-rerunfailures>=11.1.2,<13
 requests-mock>=1.11.0,<2
-ruff>=0.0.275,<0.1
+ruff>=0.0.275,<0.2
 setup2upypackage>=0.1.0,<1
 yamllint>=1.29,<2
