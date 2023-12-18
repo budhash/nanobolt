@@ -91,7 +91,7 @@ jobs:
 
       - name: Test - upload results ${{ matrix.index }}
         if: steps.has_tests.outputs.files_exists == 'true'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.grid.os }}-${{ matrix.grid.python-version }}
           path: output/report/test/junit.xml
