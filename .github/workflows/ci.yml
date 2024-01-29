@@ -80,7 +80,7 @@ jobs:
 
       - name: Check - if tests exist
         id: has_tests
-        uses: andstor/file-existence-action@v2
+        uses: andstor/file-existence-action@v3
         with:
           files: "tests"
 
